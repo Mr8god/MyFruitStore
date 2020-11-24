@@ -2,6 +2,7 @@ package cn.mr8god.fruitweb.service.impl;
 
 import cn.mr8god.fruitweb.dao.FruitDao;
 import cn.mr8god.fruitweb.dao.impl.FruitDaoJdbcImpl;
+import cn.mr8god.fruitweb.dao.impl.FruitDaoMybatisImpl;
 import cn.mr8god.fruitweb.model.Fruit;
 import cn.mr8god.fruitweb.service.FruitService;
 
@@ -13,8 +14,11 @@ import java.util.List;
  * @time 2020年11月24日02:40:50
  */
 public class FruitServiceImpl implements FruitService {
-    private FruitDao fruitDao = new FruitDaoJdbcImpl();
-
+//    private FruitDao fruitDao = new FruitDaoJdbcImpl();
+    /*
+    *     use the Mybatis
+    * */
+    private FruitDao fruitDao = new FruitDaoMybatisImpl();
     @Override
     public boolean saveFruit(Fruit fruit) {
         return fruitDao.save(fruit);
