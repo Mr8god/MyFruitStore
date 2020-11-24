@@ -18,7 +18,16 @@ public class FruitServiceImpl implements FruitService {
     /*
     *     use the Mybatis
     * */
-    private FruitDao fruitDao = new FruitDaoMybatisImpl();
+//    private FruitDao fruitDao = new FruitDaoMybatisImpl();
+    private FruitDao fruitDao;
+
+    /*
+     * use the JavaBean name the function
+     * */
+    public void setFruitDao(FruitDao fruitDao) {
+        System.out.println("helloworld");
+        this.fruitDao = fruitDao;
+    }
     @Override
     public boolean saveFruit(Fruit fruit) {
         return fruitDao.save(fruit);

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<bean id="fruitService" class="cn.mr8god.fruitweb.service.impl.FruitServiceImpl">
+    <property name="fruitDao" ref="fruitDaoMybatis"></property>
+</bean>
+    <bean id="fruitDaoJdbc" class="cn.mr8god.fruitweb.dao.impl.FruitDaoJdbcImpl"></bean>
+    <bean id="fruitDaoMybatis" class="cn.mr8god.fruitweb.dao.impl.FruitDaoMybatisImpl"></bean>
+</beans>
