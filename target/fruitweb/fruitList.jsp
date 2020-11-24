@@ -44,7 +44,7 @@
                             <a class="nav-link" href="#">下架特定水果</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">退出系统</a>
+                            <a class="nav-link" href="/" onclick="javascrip:window.close(); return false;">退出系统</a>
                         </li>
                     </ul>
                 </div>
@@ -57,7 +57,7 @@
                 <thead>
                 <tr>
                     <th>
-                        #
+                        id
                     </th>
                     <th>
                         水果名称
