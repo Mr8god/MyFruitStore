@@ -1,0 +1,11 @@
+{
+  "name": "fruitstorewebapp",
+  "version": "1.0.0",
+  "description": "This is my web-homework, So just for learning about the node.js/qaq/",
+  "private": true,
+  "dependencies": {
+    "bootstrap": "^4.5.3",
+    "jquery": "^3.5.1",
+    "popper.js": "^1.16.1"
+  }
+}
