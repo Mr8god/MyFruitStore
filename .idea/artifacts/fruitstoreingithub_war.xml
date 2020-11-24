@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="fruitstoreingithub:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>fruitstoreingithub</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="fruitweb.war">
+      <element id="artifact" artifact-name="fruitstoreingithub:war exploded" />
+    </root>
+  </artifact>
+</component>
