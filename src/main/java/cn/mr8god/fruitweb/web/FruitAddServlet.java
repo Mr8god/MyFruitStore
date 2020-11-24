@@ -6,6 +6,8 @@ import cn.mr8god.fruitweb.service.impl.FruitServiceImpl;
 import cn.mr8god.fruitweb.util.JdbcUtil;
 import lombok.SneakyThrows;
 import org.apache.commons.beanutils.BeanUtils;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -34,7 +36,9 @@ public class FruitAddServlet extends HttpServlet {
         Fruit fruit=new Fruit();
         BeanUtils.populate(fruit, req.getParameterMap());
 
-        FruitService fruitService = new FruitServiceImpl();
+        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
+        FruitService fruitService = applicationContext.getBean("fruitService", FruitService.class);
+
         boolean ret = fruitService.saveFruit(fruit);
         if (ret) {
             resp.sendRedirect("fruitList");
