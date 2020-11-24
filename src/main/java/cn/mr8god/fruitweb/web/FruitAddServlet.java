@@ -1,6 +1,8 @@
 package cn.mr8god.fruitweb.web;
 
 import cn.mr8god.fruitweb.model.Fruit;
+import cn.mr8god.fruitweb.service.FruitService;
+import cn.mr8god.fruitweb.service.impl.FruitServiceImpl;
 import cn.mr8god.fruitweb.util.JdbcUtil;
 import lombok.SneakyThrows;
 import org.apache.commons.beanutils.BeanUtils;
@@ -29,34 +31,15 @@ public class FruitAddServlet extends HttpServlet {
     @SneakyThrows
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        String name = req.getParameter("name");
-//        double price = Double.parseDouble(req.getParameter("price"));
-//        int num = Integer.parseInt(req.getParameter("num"));
-//        String remark = req.getParameter("remark");
         Fruit fruit=new Fruit();
         BeanUtils.populate(fruit, req.getParameterMap());
 
-        Connection connection = null;
-//        Statement statement = null;
-        PreparedStatement statement = null;
-        try {
-            connection = JdbcUtil.getconnection();
-//            String sql = "insert into fruitstore values(default, '"+name+"', "+price+", "+num+", '"+remark+"')";
-//            statement = connection.createStatement();
-//            int ret = statement.executeUpdate(sql);
-            String sql = "insert into fruitstore values(default, ?,?,?,?)";
-            statement = connection.prepareStatement(sql);
-            statement.setString(1, fruit.getName());
-            statement.setDouble(2, fruit.getPrice());
-            statement.setInt(3, fruit.getNum());
-            statement.setString(4, fruit.getRemark());
-            statement.executeUpdate();
+        FruitService fruitService = new FruitServiceImpl();
+        boolean ret = fruitService.saveFruit(fruit);
+        if (ret) {
             resp.sendRedirect("fruitList");
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } else {
             req.getRequestDispatcher("fruitAdd.jsp").forward(req,resp);
-        } finally {
-            JdbcUtil.free(statement, connection);
         }
     }
 }

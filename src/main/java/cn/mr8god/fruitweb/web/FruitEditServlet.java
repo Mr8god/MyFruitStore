@@ -1,7 +1,11 @@
 package cn.mr8god.fruitweb.web;
 
 import cn.mr8god.fruitweb.model.Fruit;
+import cn.mr8god.fruitweb.service.FruitService;
+import cn.mr8god.fruitweb.service.impl.FruitServiceImpl;
 import cn.mr8god.fruitweb.util.JdbcUtil;
+import lombok.SneakyThrows;
+import org.apache.commons.beanutils.BeanUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,57 +29,25 @@ public class FruitEditServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
 
-        Connection connection = null;
-        Statement statement = null;
-        ResultSet resultSet =null;
-        try {
-            connection = JdbcUtil.getconnection();
-            String sql = "select * from fruitstore where id=" + id;
-
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(sql);
-            if (resultSet.next()) {
-                Fruit fruit = new Fruit();
-                fruit.setId(resultSet.getInt(1));
-                fruit.setName(resultSet.getString("name"));
-                fruit.setPrice(resultSet.getDouble("price"));
-                fruit.setNum(resultSet.getInt("num"));
-                fruit.setRemark(resultSet.getString("remark"));
-                req.setAttribute("fruit", fruit);
-            }
-
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        } finally {
-            JdbcUtil.free(statement, connection);
-        }
+        FruitService fruitService = new FruitServiceImpl();
+        Fruit fruit = fruitService.findFruitById(id);
+        req.setAttribute("fruit", fruit);
         req.getRequestDispatcher("fruitEdit.jsp").forward(req,resp);
 
     }
 
+    @SneakyThrows
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String name = req.getParameter("name");
-        double price = Double.parseDouble(req.getParameter("price"));
-        int num = Integer.parseInt(req.getParameter("num"));
-        String remark = req.getParameter("remark");
-        int id = Integer.parseInt(req.getParameter("id"));
+        Fruit fruit=new Fruit();
+        BeanUtils.populate(fruit, req.getParameterMap());
 
-        Connection connection = null;
-        Statement statement = null;
-
-        try {
-            connection = JdbcUtil.getconnection();
-            String sql = "update fruitstore set name='"+name+"',price="+price+",num="+num+", remark='"+remark+"' where id=" + id;
-            statement = connection.createStatement();
-            int ret = statement.executeUpdate(sql);
+        FruitService fruitService = new FruitServiceImpl();
+        boolean ret = fruitService.updateFruit(fruit);
+        if (ret) {
             resp.sendRedirect("fruitList");
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } else {
             req.getRequestDispatcher("fruitEdit.jsp").forward(req,resp);
-        } finally {
-            JdbcUtil.free(statement, connection);
         }
     }
 }

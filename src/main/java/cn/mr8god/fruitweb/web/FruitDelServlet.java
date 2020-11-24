@@ -1,5 +1,8 @@
 package cn.mr8god.fruitweb.web;
 
+import cn.mr8god.fruitweb.model.Fruit;
+import cn.mr8god.fruitweb.service.FruitService;
+import cn.mr8god.fruitweb.service.impl.FruitServiceImpl;
 import cn.mr8god.fruitweb.util.JdbcUtil;
 
 import javax.servlet.ServletException;
@@ -23,22 +26,9 @@ public class FruitDelServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
 
-        Connection connection = null;
-        Statement statement = null;
+        FruitService fruitService = new FruitServiceImpl();
+        fruitService.delFruitById(id);
 
-        try {
-            connection = JdbcUtil.getconnection();
-            String sql = "delete from fruitstore where id=" + id;
-            System.out.println(sql);
-            statement = connection.createStatement();
-            int ret = statement.executeUpdate(sql);
-
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        } finally {
-            JdbcUtil.free(statement, connection);
-        }
         resp.sendRedirect("fruitList");
     }
 }
