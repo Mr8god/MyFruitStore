@@ -3,8 +3,19 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 <bean id="fruitService" class="cn.mr8god.fruitweb.service.impl.FruitServiceImpl">
-    <property name="fruitDao" ref="fruitDaoMybatis"></property>
+<!--    <property name="fruitDao" ref="fruitDaoMybatis"></property>-->
+    <property name="fruitDao" ref="fruitDaoSpringJdbc"></property>
 </bean>
     <bean id="fruitDaoJdbc" class="cn.mr8god.fruitweb.dao.impl.FruitDaoJdbcImpl"></bean>
     <bean id="fruitDaoMybatis" class="cn.mr8god.fruitweb.dao.impl.FruitDaoMybatisImpl"></bean>
+    <bean id="fruitDaoSpringJdbc" class="cn.mr8god.fruitweb.dao.impl.FruitDaoSpringJdbcImpl">
+        <constructor-arg ref="dataSource"></constructor-arg>
+    </bean>
+<!--    use druid as datasource. replace the jdbcutil -->
+    <bean class="com.alibaba.druid.pool.DruidDataSource" id="dataSource" destroy-method="close" init-method="init">
+        <property name="url" value="jdbc:mysql://localhost:3306/gamino"></property>
+        <property name="username" value="root"></property>
+        <property name="password" value="770201"></property>
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+    </bean>
 </beans>
