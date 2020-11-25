@@ -1,6 +1,7 @@
 package cn.mr8god.fruitweb.service;
 
 import cn.mr8god.fruitweb.model.Fruit;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -9,6 +10,7 @@ import java.util.List;
  * @date 2020年11月24日02:33:45
  * @time 2020年11月24日02:33:47
  */
+@Transactional
 public interface FruitService {
 
     /**
@@ -26,6 +28,7 @@ public interface FruitService {
      * @param id just the id of the fruit
      * @return the fruit
      */
+    @Transactional(readOnly = true)
     Fruit findFruitById(int id);
 
 
@@ -38,5 +41,6 @@ public interface FruitService {
     /**
      * @return the list of the fruit
      */
+    @Transactional(readOnly = true)
     List<Fruit> findAllFruits();
 }
