@@ -1,8 +1,6 @@
 package cn.mr8god.fruitweb.service.impl;
 
 import cn.mr8god.fruitweb.dao.FruitDao;
-import cn.mr8god.fruitweb.dao.impl.FruitDaoJdbcImpl;
-import cn.mr8god.fruitweb.dao.impl.FruitDaoMybatisImpl;
 import cn.mr8god.fruitweb.model.Fruit;
 import cn.mr8god.fruitweb.service.FruitService;
 

@@ -6,34 +6,30 @@
        xsi:schemaLocation=
                "http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
                 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
-                http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+                http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+">
 
-<bean id="fruitService" class="cn.mr8god.fruitweb.service.impl.FruitServiceImpl">
-<!--    <property name="fruitDao" ref="fruitDaoMybatis"></property>-->
-    <property name="fruitDao" ref="fruitDaoSpringJdbc"></property>
-</bean>
-    <bean id="fruitDaoJdbc" class="cn.mr8god.fruitweb.dao.impl.FruitDaoJdbcImpl"></bean>
-    <bean id="fruitDaoMybatis" class="cn.mr8god.fruitweb.dao.impl.FruitDaoMybatisImpl"></bean>
-    <bean id="fruitDaoSpringJdbc" class="cn.mr8god.fruitweb.dao.impl.FruitDaoSpringJdbcImpl">
-        <constructor-arg ref="dataSource"></constructor-arg>
+    <bean id="fruitService" class="cn.mr8god.fruitweb.service.impl.FruitServiceImpl">
+    <!--    <property name="fruitDao" ref="fruitDaoMybatis"></property>-->
+        <property name="fruitDao" ref="fruitDao"></property>
     </bean>
-<!--    use druid as datasource. replace the jdbcutil -->
-    <bean class="com.alibaba.druid.pool.DruidDataSource" id="dataSource" destroy-method="close" init-method="init">
-        <property name="url" value="jdbc:mysql://localhost:3306/gamino"></property>
-        <property name="username" value="root"></property>
-        <property name="password" value="770201"></property>
-        <property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
-    </bean>
-<!--    begin to start the TransactionManager-->
-    <bean id="dataSourceTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource"></property>
-    </bean>
-<!--    use the TM to manage the transation-->
+    <!--    use druid as datasource. replace the jdbcutil -->
+        <bean class="com.alibaba.druid.pool.DruidDataSource" id="dataSource" destroy-method="close" init-method="init">
+            <property name="url" value="jdbc:mysql://localhost:3306/gamino"></property>
+            <property name="username" value="root"></property>
+            <property name="password" value="770201"></property>
+            <property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+        </bean>
+    <!--    1 begin to start the TransactionManager-->
+        <bean id="dataSourceTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+            <property name="dataSource" ref="dataSource"></property>
+        </bean>
+<!--    2 use the TM to manage the transaction-->
     <aop:config>
         <aop:pointcut id="myTM" expression="execution(* cn.mr8god.fruitweb.service.*.*(..))"/>
         <aop:advisor advice-ref="txAdvice" pointcut-ref="myTM"/>
     </aop:config>
-<!--    the TransactionManager can manage all kinds of the transaction-->
+<!--    3 the TransactionManager can manage all kinds of the transaction-->
     <tx:advice id="txAdvice" transaction-manager="dataSourceTransactionManager">
         <tx:attributes>
             <tx:method name="find*" read-only="true"/>
@@ -41,4 +37,13 @@
             <tx:method name="*"/>
         </tx:attributes>
     </tx:advice>
+    <!-- 4. MyBatis -->
+    <!-- 4.1 replace the "mybatisUtil" -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!-- 4.2 which Dao have been realized initialized,such as "cn.mr8god.fruitweb.dao" -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="cn.mr8god.fruitweb.dao" />
+    </bean>
 </beans>
