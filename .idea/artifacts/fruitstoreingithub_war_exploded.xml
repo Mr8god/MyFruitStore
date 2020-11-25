@@ -36,7 +36,6 @@
         <element id="file-copy" path="$PROJECT_DIR$/target/fruitweb/META-INF/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="fruitstoreingithub/web/Web" />
-      <element id="javaee-facet-resources" facet="fruitstoreingithub/web/Web2" />
     </root>
   </artifact>
 </component>
