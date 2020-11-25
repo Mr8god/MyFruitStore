@@ -14,6 +14,7 @@
           <element id="module-output" name="fruitstoreingithub" />
         </element>
         <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: org.mybatis:mybatis-spring:2.0.6" />
           <element id="library" level="project" name="Maven: org.aspectj:aspectjweaver:1.9.5" />
           <element id="library" level="project" name="Maven: org.springframework:spring-tx:5.2.9.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-beans:5.2.9.RELEASE" />
