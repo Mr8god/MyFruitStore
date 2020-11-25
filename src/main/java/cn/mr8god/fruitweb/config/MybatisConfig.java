@@ -3,9 +3,12 @@ package cn.mr8god.fruitweb.config;
 import com.alibaba.druid.pool.DruidDataSource;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -17,15 +20,18 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableTransactionManagement
 @MapperScan("cn.mr8god.fruitweb.dao")
+@PropertySource("classpath:application.properties")
 public class MybatisConfig {
+    @Autowired
+    Environment env;
     @Bean
     @Qualifier("dataSoure")
     public DruidDataSource druidDataSource() {
         DruidDataSource druidDataSource = new DruidDataSource();
-        druidDataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        druidDataSource.setUsername("root");
-        druidDataSource.setPassword("770201");
-        druidDataSource.setUrl("jdbc:mysql://localhost:3306/gamino");
+        druidDataSource.setDriverClassName(env.getProperty("jdbc.driverClassName"));
+        druidDataSource.setUsername(env.getProperty("jdbc.user"));
+        druidDataSource.setPassword(env.getProperty("jdbc.password"));
+        druidDataSource.setUrl(env.getProperty("jdbc.url"));
         return druidDataSource;
     }
 
