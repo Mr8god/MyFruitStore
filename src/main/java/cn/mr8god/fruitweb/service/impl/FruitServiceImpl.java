@@ -3,6 +3,8 @@ package cn.mr8god.fruitweb.service.impl;
 import cn.mr8god.fruitweb.dao.FruitDao;
 import cn.mr8god.fruitweb.model.Fruit;
 import cn.mr8god.fruitweb.service.FruitService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -11,17 +13,10 @@ import java.util.List;
  * @date 2020年11月24日02:40:48
  * @time 2020年11月24日02:40:50
  */
+@Service
 public class FruitServiceImpl implements FruitService {
-//    private FruitDao fruitDao = new FruitDaoJdbcImpl();
-    /*
-    *     use the Mybatis
-    * */
-//    private FruitDao fruitDao = new FruitDaoMybatisImpl();
     private FruitDao fruitDao;
-
-    /*
-     * use the JavaBean name the function
-     * */
+    @Autowired
     public void setFruitDao(FruitDao fruitDao) {
         System.out.println("helloworld");
         this.fruitDao = fruitDao;
